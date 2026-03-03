@@ -27,9 +27,9 @@ class Rabbit {
         int GetId();
         int GetValue();
 
-        Rabbit(int id, string name) {
-            Id = id;
-            Name = name;
+        Rabbit(int newId, string newName) {
+            Id = newId;
+            Name = newName;
 
             CalculateValue();
 
@@ -77,6 +77,32 @@ void Rabbit::CalculateValue() {
     Value = newValue;
 }
 
+struct RabbitRecordEntry {
+    Rabbit RabbitData;
+    bool CorrectGuess;
+};
+
+/*=== User Class  ===*/
+
+class User {
+    private:
+        string Name;
+        bool NameSwap = false;
+
+        int Points = 0;
+        vector<RabbitRecordEntry> RabbitRecord;
+    public:
+        string GetName();
+
+        User(string newName) {
+            Name = newName;
+        }
+};
+
+string User::GetName() {
+    return Name; // TODO: When RNG is implemented, check if name is Emily or Ahria and swap
+}
+
 /*=== Main Functions ===*/
 
 vector<Rabbit> LoadRabbitsFromFile(string fileName) {
@@ -99,11 +125,48 @@ vector<Rabbit> LoadRabbitsFromFile(string fileName) {
         rabbitId += 1;
         allRabbits.push_back(newRabbit);
     }
+
+    return allRabbits;
+}
+
+/*=== Standard Game Mode ===*/
+
+void StandardGame(User* user, const vector<Rabbit>* allRabbits) {
+    // TODO: Blank the screen
+    cout << "Hi i'm still " << user->GetName() << " btw" << endl;
 }
 
 /*=== Endpoint ===*/
 
 int main() {
-    const vector<Rabbit> allRabbits = LoadRabbitsFromFile(DATA_FILE_NAME);
+    vector<Rabbit> allRabbits = LoadRabbitsFromFile(DATA_FILE_NAME);
+
+    string userName;
+    int gameMode;
+
+    cout << "\t\t*=* Welcome to the Rabbit Game!!! *=*" << endl;
+    cout << "\nPlease enter your name before we begin: ";
+
+    getline(cin, userName);
+    User user(userName);
+
+    cout << "\n\t\t-*- What game mode would you like to play, " << user.GetName() << "? -*-" << endl;
+    cout << "\n0. The Nothing Game (exit the program)" << endl;
+    cout << "1. Standard (Guess-And-Match)" << endl;
+
+    cout << "\nI would like to play mode: ";
+    cin >> gameMode;
+
+    switch (gameMode) {
+        case 1:
+            StandardGame(&user, &allRabbits);
+            break;
+        
+        case 0:
+        default:
+            exit(0);
+            break;
+    }
+
     return 0;
 }
