@@ -8,7 +8,7 @@ Angora
 Argente Bleu
 Argente Brun
 Argente Clair
-Argente Crème
+Argente Creme
 Argente de Champagne
 Argente Noir
 Argente St Hubert
@@ -66,7 +66,7 @@ Fauve de Bourgogne
 Flemish Giant
 Florida White
 Fox
-Fox–Silver
+Fox-Silver
 French Angora
 French Lop
 Gabali
@@ -84,7 +84,7 @@ Golden Glavcot
 Gotland
 Gouwenaar
 Grey Pearl of Halle
-Güzelçamlı
+Guzelcamli
 Harlequin
 Havana
 Himalayan
@@ -117,7 +117,7 @@ New Zealand
 Nitransky
 Opossum
 Orange
-Ørestad
+Orestad
 Orylag
 Palomino
 Pannon White
@@ -127,7 +127,7 @@ Pointed Beveren
 Polish
 Rex
 Rhinelander
-Rhön
+Rhon
 Sachsengold
 Sallander
 San Juan
@@ -152,7 +152,7 @@ Teddy Dwarf
 Teddy Lop
 Thrianta
 Tri-Colour Dutch
-Trønder
+Tronder
 V-line
 Velveteen Lop
 Vienna
