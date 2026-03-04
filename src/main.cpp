@@ -1,10 +1,16 @@
 #include <iostream>
-#include <fstream>
+
+#include <ctime>
+#include <cstdlib>
+
 #include <vector>
+#include <fstream>
 
 using namespace std;
 
 const bool DEBUG_LOG = true;
+const bool SKIP_INTRO = true;
+
 const string DATA_FILE_NAME = "./data/rabbits.txt";
 
 /*=== Utility Functions ===*/
@@ -129,16 +135,21 @@ vector<Rabbit> LoadRabbitsFromFile(string fileName) {
     return allRabbits;
 }
 
+Rabbit GetRandomRabbit(const vector<Rabbit>* rabbitList) {
+    return rabbitList->at(rand() % rabbitList->size());
+}
+
 /*=== Standard Game Mode ===*/
 
-void StandardGame(User* user, const vector<Rabbit>* allRabbits) {
-    // TODO: Blank the screen
-    cout << "Hi i'm still " << user->GetName() << " btw" << endl;
+void StandardGame(User* user, vector<Rabbit>* allRabbits) {
+    
 }
 
 /*=== Endpoint ===*/
 
 int main() {
+    srand(time(0));
+
     vector<Rabbit> allRabbits = LoadRabbitsFromFile(DATA_FILE_NAME);
 
     string userName;
