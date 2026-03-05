@@ -207,8 +207,9 @@ vector<Rabbit> LoadRabbitsFromFile(string fileName) {
 
 /*=== Standard Game Mode ===*/
 
-void StandardGame(User* user, vector<Rabbit>* allRabbits) {
+void StandardGame(User* user) {
     system("clear");
+    vector<Rabbit> allRabbits = LoadRabbitsFromFile(DATA_FILE_NAME);
 
     cout << "\t\t=-*-= Standard Mode =-*-=" << endl;
     cout << "Welcome to the standard gamemode, " << user->GetName() << "!" << endl;
@@ -236,11 +237,11 @@ void StandardGame(User* user, vector<Rabbit>* allRabbits) {
         cout << "\n\n\t-*- Round " << currentRound + 1 << " -*-" << endl << endl;
 
         for (int idx = 0; idx < MODE_STANDARD_RABBITS; idx++) {
-            int rabbitIdx = rand() % allRabbits->size();
-            Rabbit newRabbit = allRabbits->at(rabbitIdx);
+            int rabbitIdx = rand() % allRabbits.size();
+            Rabbit newRabbit = allRabbits.at(rabbitIdx);
 
             roundRabbits.push_back(newRabbit);
-            allRabbits->erase(allRabbits->begin() + rabbitIdx);
+            allRabbits.erase(allRabbits.begin() + rabbitIdx);
 
             string rabbitGuess = "";
 
@@ -285,65 +286,16 @@ void StandardGame(User* user, vector<Rabbit>* allRabbits) {
     }
 }
 
-/*=== Special Game Mode ===*/
+/*=== Bunny Wordle Game Mode ===*/
 
-void SpecialGame(User* user, vector<Rabbit>* allRabbits) {
-    system("clear");
-
-    cout << "\t\t=-*-= Special Mode =-*-=" << endl;
-    cout << "Welcome to the special gamemode, " << user->GetName() << "!" << endl;
-
-    cout << "\nPlay rules:\n- You will have a few seconds (" << MODE_STANDARD_DELAY << ") to see the name of a few rabbits." << endl;
-    cout << "- You must then enter the names of each rabbit (not in order) to gain points." << endl;
-    cout << "- Some rabbits will have parts of their name censored. If you are able to enter the complete name, you'll get bonus points." << endl;
+void WordleGame(User* user) {
     
-    cout << "\nScoring rules:" << endl;
-    cout << "1. The length of the name and the composition (any special characters) has an impact on score." << endl;
-    cout << "2. Censored rabbit names are worth double the points as their regular counterpart." << endl;
-
-    cout << "\n" << "Are you ready to play? (y/n)" << endl;
-
-    char startChoice;
-    cin >> startChoice;
-
-    if (startChoice != 'y') {
-        exit(0);
-    }
-
-    system("clear");
-
-    // Game start
-
-    int currentRound = 0;
-    while (currentRound <= MODE_STANDARD_ROUNDS) {
-        vector<Rabbit> roundRabbits;
-
-        cout << "\n\nRound " << currentRound + 1 << endl;
-
-        for (int idx = 0; idx <= currentRound; idx++) {
-            int rabbitIdx = rand() % allRabbits->size();
-            Rabbit newRabbit = allRabbits->at(rabbitIdx);
-
-            roundRabbits.push_back(newRabbit);
-            allRabbits->erase(allRabbits->begin() + rabbitIdx);
-
-            cout << "\n";
-
-            if (rand() % 4 == 0) {
-                cout << newRabbit.GetCensored(true) << endl;
-            } else {
-                cout << newRabbit.Name << endl;
-            }
-        }
-    }
 }
 
 /*=== Endpoint ===*/
 
 int main() {
     srand(time(0));
-
-    vector<Rabbit> allRabbits = LoadRabbitsFromFile(DATA_FILE_NAME);
 
     string userName;
     int gameMode;
@@ -356,7 +308,8 @@ int main() {
 
     cout << "\n\t\t-*- What game mode would you like to play, " << user.GetName() << "? -*-" << endl;
     cout << "\n0. The Nothing Game (exit the program)" << endl;
-    cout << "1. Standard (Guess-And-Match)" << endl;
+    cout << "1. Standard (Guesssing Game)" << endl;
+    cout << "2. Bundle (Bunny Wordle)" << endl;
 
     cout << "\nI would like to play mode: ";
     cin >> gameMode;
@@ -365,7 +318,7 @@ int main() {
 
     switch (gameMode) {
         case 1:
-            StandardGame(&user, &allRabbits);
+            StandardGame(&user);
             break;
         
         case 0:
