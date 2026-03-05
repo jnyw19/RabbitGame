@@ -9,6 +9,10 @@
 
 using namespace std;
 
+#define RESET   "\033[0m"
+#define GREEN   "\033[32m"      /* Green */
+#define YELLOW  "\033[33m"      /* Yellow */
+
 const bool DEBUG_LOG = false;
 const bool SKIP_INTRO = false;
 
