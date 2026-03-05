@@ -9,8 +9,8 @@
 
 using namespace std;
 
-const bool DEBUG_LOG = true;
-const bool SKIP_INTRO = true;
+const bool DEBUG_LOG = false;
+const bool SKIP_INTRO = false;
 
 const string DATA_FILE_NAME = "./data/rabbits.txt";
 
@@ -24,7 +24,9 @@ const int MODE_STANDARD_RABBITS = 4;
 /*=== Utility Functions ===*/
 
 void _debugLog(string message) {
-    cout << message << endl;
+    if (DEBUG_LOG) {
+        cout << message << endl;
+    }
 }
 
 /*=== Rabbit Class ===*/
