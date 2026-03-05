@@ -3,6 +3,7 @@
 #include <ctime>
 #include <cstdlib>
 
+#include <ranges>
 #include <vector>
 #include <fstream>
 
@@ -12,6 +13,13 @@ const bool DEBUG_LOG = true;
 const bool SKIP_INTRO = true;
 
 const string DATA_FILE_NAME = "./data/rabbits.txt";
+
+const vector<char> WORD_VOWELS = {'a', 'e', 'i', 'o', 'u'};
+const vector<char> CENSOR_BANNED = {' ', '-'};
+
+const int MODE_STANDARD_DELAY = 3;
+const int MODE_STANDARD_ROUNDS = 5;
+const int MODE_STANDARD_RABBITS = 4;
 
 /*=== Utility Functions ===*/
 
@@ -33,6 +41,8 @@ class Rabbit {
         int GetId();
         int GetValue();
 
+        string GetCensored(bool realCensor = false);
+
         Rabbit(int newId, string newName) {
             Id = newId;
             Name = newName;
@@ -41,6 +51,7 @@ class Rabbit {
 
             _debugLog("Creating new rabbit " + Name + ", id: " + to_string(Id));
             _debugLog("\tpoint value: " + to_string(Value));
+            _debugLog("\tcensor test: " + GetCensored());
         };
 };
 
@@ -83,6 +94,37 @@ void Rabbit::CalculateValue() {
     Value = newValue;
 }
 
+string Rabbit::GetCensored(bool realCensor) {
+    string nameCopy = Name;
+
+    for (int idx = 0; idx < nameCopy.length(); idx++) {
+        char nameChar = nameCopy[idx];
+
+        if (count(CENSOR_BANNED.begin(), CENSOR_BANNED.end(), nameChar) >= 1) {
+            continue;
+        }
+
+        for (int idy = 0; idy < WORD_VOWELS.size(); idy++) {
+            char vowelChar = WORD_VOWELS.at(idy);
+
+            if (nameChar == vowelChar) {
+                nameCopy.replace(idx, 1, "-");
+            }
+        }
+
+        if ((rand() % 11) <= 1) {
+            nameCopy.replace(idx, 1, "-");
+        }
+    }
+
+    if (realCensor) {
+        Value *= 2;
+        Name = nameCopy;
+    }
+
+    return nameCopy;
+}
+
 struct RabbitRecordEntry {
     Rabbit RabbitData;
     bool CorrectGuess;
@@ -96,9 +138,12 @@ class User {
         bool NameSwap = false;
 
         int Points = 0;
-        vector<RabbitRecordEntry> RabbitRecord;
+        //vector<RabbitRecordEntry> RabbitRecord;
     public:
         string GetName();
+
+        int GetPoints();
+        void AddPoints(int newPoints);
 
         User(string newName) {
             Name = newName;
@@ -106,7 +151,25 @@ class User {
 };
 
 string User::GetName() {
-    return Name; // TODO: When RNG is implemented, check if name is Emily or Ahria and swap
+    if (Name == "Emily") {
+        if (rand() % 11 <= 2) {
+            return "Ahria";
+        }
+    } else if (Name == "Ahria") {
+        if (rand() % 11 <= 2) {
+            return "Emily";
+        }
+    }
+
+    return Name;
+}
+
+void User::AddPoints(int newPoints) {
+    Points += newPoints;
+}
+
+int User::GetPoints() {
+    return Points;
 }
 
 /*=== Main Functions ===*/
@@ -135,14 +198,137 @@ vector<Rabbit> LoadRabbitsFromFile(string fileName) {
     return allRabbits;
 }
 
-Rabbit GetRandomRabbit(const vector<Rabbit>* rabbitList) {
-    return rabbitList->at(rand() % rabbitList->size());
-}
-
 /*=== Standard Game Mode ===*/
 
 void StandardGame(User* user, vector<Rabbit>* allRabbits) {
+    system("clear");
+
+    cout << "\t\t=-*-= Standard Mode =-*-=" << endl;
+    cout << "Welcome to the standard gamemode, " << user->GetName() << "!" << endl;
+
+    cout << "\n" << "Are you ready to play? (y/n)" << endl;
+
+    char startChoice;
+    cin >> startChoice;
+
+    if (startChoice != 'y') {
+        exit(0);
+    }
+
+    system("clear");
+
+    // Game start
+
+    int currentRound = 0;
+    int possiblePoints = 0;
+
+    while (currentRound < MODE_STANDARD_ROUNDS) {
+        int pointsToAdd = 0;
+        vector<Rabbit> roundRabbits;
+
+        cout << "\n\n\t-*- Round " << currentRound + 1 << " -*-" << endl << endl;
+
+        for (int idx = 0; idx < MODE_STANDARD_RABBITS; idx++) {
+            int rabbitIdx = rand() % allRabbits->size();
+            Rabbit newRabbit = allRabbits->at(rabbitIdx);
+
+            roundRabbits.push_back(newRabbit);
+            allRabbits->erase(allRabbits->begin() + rabbitIdx);
+
+            string rabbitGuess = "";
+
+            cout << "Rabbit " << idx + 1 << ": " << newRabbit.GetCensored() << endl;
+            cout << "Rabbit " << idx + 1 << " Guess: ";
+
+            getline(cin, rabbitGuess);
+            //cout << endl; 
+
+            if (rabbitGuess == "") {
+                getline(cin, rabbitGuess);
+            }
+
+            if (rabbitGuess == newRabbit.Name) {
+                cout << "Correct!";
+                pointsToAdd += newRabbit.GetValue();
+            } else {
+                cout << "Incorrect!";
+            }
+
+            possiblePoints += newRabbit.GetValue();
+
+            string rabbitWord = "Rabbit";
+            string descriptorWord = "a";
+
+            if (newRabbit.Name == "Emily") {
+                rabbitWord = "Bunny";
+                descriptorWord = "an";
+            }
+
+            cout << " This is " + descriptorWord + " " << newRabbit.Name + " " + rabbitWord << endl;
+            cout << endl;
+            
+        }
+
+        user->AddPoints(pointsToAdd);
+
+        cout << "You earned " + to_string(pointsToAdd) + " points that round!" << endl;
+        cout << "You have earned a total of " + to_string(user->GetPoints()) + " points out of " + to_string(possiblePoints) + " possible." << endl;
+
+        currentRound += 1;
+    }
+}
+
+/*=== Special Game Mode ===*/
+
+void SpecialGame(User* user, vector<Rabbit>* allRabbits) {
+    system("clear");
+
+    cout << "\t\t=-*-= Special Mode =-*-=" << endl;
+    cout << "Welcome to the special gamemode, " << user->GetName() << "!" << endl;
+
+    cout << "\nPlay rules:\n- You will have a few seconds (" << MODE_STANDARD_DELAY << ") to see the name of a few rabbits." << endl;
+    cout << "- You must then enter the names of each rabbit (not in order) to gain points." << endl;
+    cout << "- Some rabbits will have parts of their name censored. If you are able to enter the complete name, you'll get bonus points." << endl;
     
+    cout << "\nScoring rules:" << endl;
+    cout << "1. The length of the name and the composition (any special characters) has an impact on score." << endl;
+    cout << "2. Censored rabbit names are worth double the points as their regular counterpart." << endl;
+
+    cout << "\n" << "Are you ready to play? (y/n)" << endl;
+
+    char startChoice;
+    cin >> startChoice;
+
+    if (startChoice != 'y') {
+        exit(0);
+    }
+
+    system("clear");
+
+    // Game start
+
+    int currentRound = 0;
+    while (currentRound <= MODE_STANDARD_ROUNDS) {
+        vector<Rabbit> roundRabbits;
+
+        cout << "\n\nRound " << currentRound + 1 << endl;
+
+        for (int idx = 0; idx <= currentRound; idx++) {
+            int rabbitIdx = rand() % allRabbits->size();
+            Rabbit newRabbit = allRabbits->at(rabbitIdx);
+
+            roundRabbits.push_back(newRabbit);
+            allRabbits->erase(allRabbits->begin() + rabbitIdx);
+
+            cout << "\n";
+
+            if (rand() % 4 == 0) {
+                cout << newRabbit.GetCensored(true) << endl;
+            } else {
+                cout << newRabbit.Name << endl;
+            }
+        }
+    }
 }
 
 /*=== Endpoint ===*/
@@ -168,6 +354,8 @@ int main() {
     cout << "\nI would like to play mode: ";
     cin >> gameMode;
 
+    cout << endl << endl;
+
     switch (gameMode) {
         case 1:
             StandardGame(&user, &allRabbits);
@@ -179,5 +367,6 @@ int main() {
             break;
     }
 
+    cout << "Thank you for playing!!! I loaf you <3" << endl;
     return 0;
 }

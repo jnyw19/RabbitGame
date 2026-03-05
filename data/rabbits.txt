@@ -1,3 +1,4 @@
+Ahria
 Alaskan
 Altex
 American
@@ -58,6 +59,7 @@ Deilenaar
 Dutch
 Dwarf Hotot
 Dwarf Lop
+Emily
 Enderby Island
 English Angora
 English Lop
@@ -101,7 +103,7 @@ Lynx
 Marburger Feh
 Mecklenburger Piebald
 Meissner Lop
-Mellerud rabbit
+Mellerud
 Mini Lop
 Mini Rex
 Mini Satin
@@ -142,7 +144,7 @@ Silver Marten
 Simenwar
 Spanish Giant
 St Nicholas Blue
-Stone Rabbit
+Stone
 Swedish Fur
 Swedish Hare
 Swiss Fox
