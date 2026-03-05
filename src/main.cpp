@@ -197,6 +197,7 @@ vector<Rabbit> LoadRabbitsFromFile(string fileName) {
         allRabbits.push_back(newRabbit);
     }
 
+    rabbitFile.close();
     return allRabbits;
 }
 
