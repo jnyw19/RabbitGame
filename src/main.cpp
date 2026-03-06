@@ -104,6 +104,7 @@ void Rabbit::CalculateValue() {
 string Rabbit::GetCensored(bool realCensor) {
     string nameCopy = Name;
 
+    int numCensored = 0;
     for (int idx = 0; idx < nameCopy.length(); idx++) {
         char nameChar = nameCopy[idx];
 
@@ -115,13 +116,20 @@ string Rabbit::GetCensored(bool realCensor) {
             char vowelChar = WORD_VOWELS.at(idy);
 
             if (nameChar == vowelChar) {
+                numCensored += 1;
                 nameCopy.replace(idx, 1, "-");
             }
         }
 
         if ((rand() % 11) <= 1) {
+            numCensored += 1;
             nameCopy.replace(idx, 1, "-");
         }
+    }
+
+    if (numCensored == 0) {
+        nameCopy.replace(0, 1, "-");
+        nameCopy.replace(-1, 1, "-");
     }
 
     if (realCensor) {
@@ -293,7 +301,7 @@ void WordleGame(User* user) {
     system("clear");
     vector<Rabbit> allRabbits = LoadRabbitsFromFile(AVERAGE_FILE_NAME);
 
-    cout << "\t\t=-*-= Bundle Mode =-*-=" << endl;
+    cout << "\t\t=-*-= Bundle Mode (IN-DEV) =-*-=" << endl;
     cout << "Welcome to the Bunny Worlde gamemode, " << user->GetName() << "!" << endl;
 }
 
@@ -314,7 +322,7 @@ int main() {
     cout << "\n\t\t-*- What game mode would you like to play, " << user.GetName() << "? -*-" << endl;
     cout << "\n0. The Nothing Game (exit the program)" << endl;
     cout << "1. Standard (Guesssing Game)" << endl;
-    cout << "2. Bundle (Bunny Wordle)" << endl;
+    //cout << "2. Bundle (Bunny Wordle)" << endl;
 
     cout << "\nI would like to play mode: ";
     cin >> gameMode;
