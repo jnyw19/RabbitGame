@@ -17,6 +17,7 @@ const bool DEBUG_LOG = false;
 const bool SKIP_INTRO = false;
 
 const string DATA_FILE_NAME = "./data/rabbits.txt";
+const string AVERAGE_FILE_NAME = "./data/average.txt";
 
 const vector<char> WORD_VOWELS = {'a', 'e', 'i', 'o', 'u'};
 const vector<char> CENSOR_BANNED = {' ', '-'};
@@ -289,7 +290,11 @@ void StandardGame(User* user) {
 /*=== Bunny Wordle Game Mode ===*/
 
 void WordleGame(User* user) {
-    
+    system("clear");
+    vector<Rabbit> allRabbits = LoadRabbitsFromFile(AVERAGE_FILE_NAME);
+
+    cout << "\t\t=-*-= Bundle Mode =-*-=" << endl;
+    cout << "Welcome to the Bunny Worlde gamemode, " << user->GetName() << "!" << endl;
 }
 
 /*=== Endpoint ===*/
@@ -319,6 +324,9 @@ int main() {
     switch (gameMode) {
         case 1:
             StandardGame(&user);
+            break;
+        case 2:
+            WordleGame(&user);
             break;
         
         case 0:
