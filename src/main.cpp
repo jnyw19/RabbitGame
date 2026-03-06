@@ -13,6 +13,8 @@ using namespace std;
 #define GREEN   "\033[32m"      /* Green */
 #define YELLOW  "\033[33m"      /* Yellow */
 
+#define GAME_VERSION    "0.1.1"
+
 const bool DEBUG_LOG = false;
 const bool SKIP_INTRO = false;
 
@@ -314,7 +316,9 @@ int main() {
     int gameMode;
 
     cout << "\t\t*=* Welcome to the Rabbit Game!!! *=*" << endl;
-    cout << "\nPlease enter your name before we begin: ";
+    
+    cout << "\nYou are playing Version " << GAME_VERSION << endl;
+    cout << "Please enter your name before we begin: ";
 
     getline(cin, userName);
     User user(userName);
