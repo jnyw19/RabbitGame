@@ -1,2 +1,4 @@
-just compile it (g++ src/main.cpp)
-then run <3
+## To run
+```
+g++ -std=c++23 src/main.cpp && ./a.out
+```
