@@ -130,8 +130,7 @@ string Rabbit::GetCensored(bool realCensor) {
     }
 
     if (numCensored == 0) {
-        nameCopy.replace(0, 1, "-");
-        nameCopy.replace(-1, 1, "-");
+        nameCopy.replace(0, 2, "-");
     }
 
     if (realCensor) {
