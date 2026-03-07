@@ -24,9 +24,10 @@ const bool SKIP_INTRO = false;
 const string DATA_FILE_NAME = "./data/rabbits.txt";
 const string AVERAGE_FILE_NAME = "./data/average.txt";
 
-const int MODE_STANDARD_DELAY = 3;
 const int MODE_STANDARD_ROUNDS = 5;
 const int MODE_STANDARD_RABBITS = 4;
+
+const int DAY_SECONDS = 60 * 60 * 24;
 
 /*=== Utility Functions ===*/
 
@@ -34,6 +35,10 @@ void _debugLog(string message) {
     if (DEBUG_LOG) {
         cout << message << endl;
     }
+}
+
+int GetCurrentDay() {
+    return time(nullptr) / DAY_SECONDS;
 }
 
 /*=== Main Functions ===*/
@@ -150,8 +155,12 @@ void WordleGame(User* user) {
     system("clear");
     vector<Rabbit> allRabbits = LoadRabbitsFromFile(AVERAGE_FILE_NAME);
 
+    int currentDay = GetCurrentDay();
+
     cout << "\t\t=-*-= Bundle Mode (IN-DEV) =-*-=" << endl;
     cout << "Welcome to the Bunny Worlde gamemode, " << user->GetName() << "!" << endl;
+
+    cout << "\nToday is Day " + to_string(currentDay) << endl;
 }
 
 /*=== Endpoint ===*/
