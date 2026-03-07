@@ -5,6 +5,19 @@
 User::User(string newName)
 {
     Name = newName;
+
+    // Birthday surprise
+
+    if (Name == "Emily" || Name == "Ahria")
+    {
+        time_t now = time(nullptr);
+        tm *local = localtime(&now);
+
+        if (local->tm_mon == 2 && local->tm_mday == 9)
+        {
+            IsBirthday = true;
+        }
+    }
 }
 
 string User::GetName() const
@@ -13,15 +26,19 @@ string User::GetName() const
     {
         if (rand() % 11 <= 2)
         {
-            return "Ahria";
+            return IsBirthday ? "Birthday Bunnia" : "Ahria";
         }
+
+        return IsBirthday ? "Birthday Bunnily" : Name;
     }
     else if (Name == "Ahria")
     {
         if (rand() % 11 <= 2)
         {
-            return "Emily";
+            return IsBirthday ? "Birthday Bunnily" : "Emily";
         }
+
+        return IsBirthday ? "Birthday Bunnia" : Name;
     }
 
     return Name;

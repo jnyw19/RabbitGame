@@ -208,6 +208,15 @@ int main() {
             break;
     }
 
-    cout << "Thank you for playing!!! I loaf you <3" << endl;
+    if (user.IsBirthday) {
+        system("clear");
+
+        cout << "*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-*" << endl;
+        cout << "\n\tHAPPY\n\t\tBIRTHDAY\n\t\t\t   BUNDAY" << endl;
+        cout << "\n\tI LOVE YOU SO MUCH!!!\n" << endl;
+        cout << "*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-*" << endl;
+    }
+
+    cout << "\nThank you for playing!!! I loaf you <3" << endl;
     return 0;
 }
