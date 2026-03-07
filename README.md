@@ -1,4 +1,9 @@
-## To run
+## Compilation (RUN AFTER EVERY UPDATE)
 ```
-g++ -std=c++23 src/main.cpp && ./a.out
+Make
+```
+
+## Game exec will now forever live in
+```
+bin/RabbitGame
 ```
