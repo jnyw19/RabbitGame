@@ -27,6 +27,8 @@ const string AVERAGE_FILE_NAME = "./data/average.txt";
 const int MODE_STANDARD_ROUNDS = 5;
 const int MODE_STANDARD_RABBITS = 4;
 
+const int MODE_WORDLE_STARTDAY = 20521;
+
 const int DAY_SECONDS = 60 * 60 * 24;
 
 /*=== Utility Functions ===*/
@@ -158,7 +160,10 @@ void WordleGame(User* user) {
     int currentDay = GetCurrentDay();
 
     cout << "\t\t=-*-= Bundle Mode (IN-DEV) =-*-=" << endl;
-    cout << "Welcome to the Bunny Worlde gamemode, " << user->GetName() << "!" << endl;
+    cout << "Welcome to the Bunny Wordle gamemode, " << user->GetName() << "!" << endl;
+    
+    cout << "\n- Every day at 5pm PST there will be a new bunny for you to guess";
+    cout << "\n- Game follows traditional wordle, but with varying character lengths";
 
     cout << "\nToday is Day " + to_string(currentDay) << endl;
 }
@@ -182,7 +187,7 @@ int main() {
     cout << "\n\t\t-*- What game mode would you like to play, " << user.GetName() << "? -*-" << endl;
     cout << "\n0. The Nothing Game (exit the program)" << endl;
     cout << "1. Standard (Guesssing Game)" << endl;
-    //cout << "2. Bundle (Bunny Wordle)" << endl;
+    cout << "2. Bundle (Bunny Wordle)" << endl;
 
     cout << "\nI would like to play mode: ";
     cin >> gameMode;
