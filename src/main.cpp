@@ -7,22 +7,22 @@
 #include <vector>
 #include <fstream>
 
+#include "User.h"
+#include "Rabbit.h"
+
 using namespace std;
 
 #define RESET   "\033[0m"
 #define GREEN   "\033[32m"      /* Green */
 #define YELLOW  "\033[33m"      /* Yellow */
 
-#define GAME_VERSION    "0.1.1"
+#define GAME_VERSION    "0.1.2"
 
 const bool DEBUG_LOG = false;
 const bool SKIP_INTRO = false;
 
 const string DATA_FILE_NAME = "./data/rabbits.txt";
 const string AVERAGE_FILE_NAME = "./data/average.txt";
-
-const vector<char> WORD_VOWELS = {'a', 'e', 'i', 'o', 'u'};
-const vector<char> CENSOR_BANNED = {' ', '-'};
 
 const int MODE_STANDARD_DELAY = 3;
 const int MODE_STANDARD_ROUNDS = 5;
@@ -34,158 +34,6 @@ void _debugLog(string message) {
     if (DEBUG_LOG) {
         cout << message << endl;
     }
-}
-
-/*=== Rabbit Class ===*/
-
-class Rabbit {
-    private:
-        int Id;
-        int Value;
-
-        void CalculateValue();
-    public:
-        string Name;
-
-        int GetId();
-        int GetValue();
-
-        string GetCensored(bool realCensor = false);
-
-        Rabbit(int newId, string newName) {
-            Id = newId;
-            Name = newName;
-
-            CalculateValue();
-
-            _debugLog("Creating new rabbit " + Name + ", id: " + to_string(Id));
-            _debugLog("\tpoint value: " + to_string(Value));
-            _debugLog("\tcensor test: " + GetCensored());
-        };
-};
-
-int Rabbit::GetId() {
-    return Id;
-}
-
-int Rabbit::GetValue() {
-    return Value;
-}
-
-void Rabbit::CalculateValue() {
-    int newValue = 0;
-
-    /* Point Scheme
-
-    1 point per space, hyphen, apostrophe
-    2 points per 3 alphanumeric characters
-    
-    */
-
-    int numAlpha = 0;
-    for (int idx = 0; idx < Name.length(); idx++) {
-        char check = Name[idx];
-        
-        switch(check) {
-            case ' ':
-            case '-':
-            case '\'':
-                newValue += 1;
-                break;
-            default:
-                numAlpha += 1;
-                break;
-        }
-    }
-
-    newValue += (numAlpha / 3);
-
-    Value = newValue;
-}
-
-string Rabbit::GetCensored(bool realCensor) {
-    string nameCopy = Name;
-
-    int numCensored = 0;
-    for (int idx = 0; idx < nameCopy.length(); idx++) {
-        char nameChar = nameCopy[idx];
-
-        if (count(CENSOR_BANNED.begin(), CENSOR_BANNED.end(), nameChar) >= 1) {
-            continue;
-        }
-
-        for (int idy = 0; idy < WORD_VOWELS.size(); idy++) {
-            char vowelChar = WORD_VOWELS.at(idy);
-
-            if (nameChar == vowelChar) {
-                numCensored += 1;
-                nameCopy.replace(idx, 1, "-");
-            }
-        }
-
-        if ((rand() % 11) <= 1) {
-            numCensored += 1;
-            nameCopy.replace(idx, 1, "-");
-        }
-    }
-
-    if (numCensored == 0) {
-        nameCopy.replace(0, 2, "-");
-    }
-
-    if (realCensor) {
-        Value *= 2;
-        Name = nameCopy;
-    }
-
-    return nameCopy;
-}
-
-struct RabbitRecordEntry {
-    Rabbit RabbitData;
-    bool CorrectGuess;
-};
-
-/*=== User Class  ===*/
-
-class User {
-    private:
-        string Name;
-        bool NameSwap = false;
-
-        int Points = 0;
-        //vector<RabbitRecordEntry> RabbitRecord;
-    public:
-        string GetName();
-
-        int GetPoints();
-        void AddPoints(int newPoints);
-
-        User(string newName) {
-            Name = newName;
-        }
-};
-
-string User::GetName() {
-    if (Name == "Emily") {
-        if (rand() % 11 <= 2) {
-            return "Ahria";
-        }
-    } else if (Name == "Ahria") {
-        if (rand() % 11 <= 2) {
-            return "Emily";
-        }
-    }
-
-    return Name;
-}
-
-void User::AddPoints(int newPoints) {
-    Points += newPoints;
-}
-
-int User::GetPoints() {
-    return Points;
 }
 
 /*=== Main Functions ===*/
