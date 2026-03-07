@@ -30,7 +30,7 @@ Blanc de Popielno
 Blanc de Termonde
 Blue of Ham
 Blue of Sint-Niklaas
-Bourbonnais Grey
+Bourbonnais Gray
 Brazilian
 Britannia Petite
 British Giant
@@ -38,7 +38,7 @@ Brown Chestnut of Lorraine
 Caldes
 Californian
 Canadian Plush Lop
-Carmagnola Grey
+Carmagnola Gray
 Cashmere Lop
 Champagne d'Argent
 Chaudry
@@ -85,7 +85,7 @@ Giza White
 Golden Glavcot
 Gotland
 Gouwenaar
-Grey Pearl of Halle
+Gray Pearl of Halle
 Guzelcamli
 Harlequin
 Havana
